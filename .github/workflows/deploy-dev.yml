@@ -2,18 +2,16 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build Docker image
-      run: docker build . -t kbmegha/docker-react -f Dockerfile.dev
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build . -t kbmegha/docker-react -f Dockerfile.dev
 
-    - name: Run tests
-      run: docker run kbmegha/docker-react npm run test
+      - name: Run tests
+        run: docker run -e CI=true kbmegha/docker-react npm run test
