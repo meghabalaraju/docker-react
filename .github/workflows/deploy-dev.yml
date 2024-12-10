@@ -10,8 +10,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker image
-        run: docker build . -t kbmegha/docker-react -f Dockerfile.dev
+        run: docker build -t kbmegha/docker-react -f Dockerfile.dev .
 
       - name: Run tests
         run: docker run -e CI=true kbmegha/docker-react npm run test
+
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
+          aws_secret_key: ${{secrets.AWS_SECRET_KEY}}
+          application_name: fontend
+          environment_name: Fontend-env
+          existing_bucket_name: elasticbeanstalk-eu-north-1-324037294229
+          region: eu-north-1
+          version_label: ${{ github.sha }}
+          deployment_package: deploy.zip
