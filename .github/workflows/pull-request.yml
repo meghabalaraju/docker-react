@@ -8,3 +8,4 @@ jobs:
   build:
     name: Build Docker Image and Run Tests
     uses: ./.github/workflows/job-dockerize.yml
+    secrets: inherit
