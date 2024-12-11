@@ -1,0 +1,11 @@
+name: On pull request open
+
+on:
+  pull_request:
+    branches: main
+
+jobs:
+  build:
+    name: Build Docker Image and Run Tests
+    uses: ./.github/workflows/job-dockerize.yml
+    secrets: inherit

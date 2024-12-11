@@ -1,0 +1,17 @@
+name: Deploy Frontend App
+
+on:
+  push:
+    branches: main
+
+jobs:
+  build:
+    name: Build Dcoker Image and Run Tests
+    uses: ./.github/workflows/job-dockerize.yml
+    secrets: inherit
+
+  deploy:
+    name: Deploy to EB
+    needs: build
+    uses: ./.github/workflows/job-deploy.yml
+    secrets: inherit
