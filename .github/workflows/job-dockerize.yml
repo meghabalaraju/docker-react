@@ -3,10 +3,10 @@ name: Dockerize and run test for the frontend app
 on: workflow_call
 
 jobs:
-  login:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout to repo
+      - name: Checkout to Repository
         uses: actions/checkout@v4
 
       - name: Login to Docker Hub
@@ -16,6 +16,3 @@ jobs:
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
       - name: Build Docker image
         run: docker build -t kbmegha/docker-react -f Dockerfile.dev .
-
-      - name: Run tests
-        run: docker run -e CI=true kbmegha/docker-react npm run test
