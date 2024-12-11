@@ -6,6 +6,9 @@ jobs:
   zip:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout to Repository
+        uses: actions/checkout@v4
+
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
 
