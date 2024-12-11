@@ -1,0 +1,15 @@
+name: On pull request open
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build Dcoker Image
+    uses: ./.github/workflows/job-dockerize.yml
+
+  test:
+    name: Run tests
+    needs: build
+    uses: ./.github/workflows/job-test.yml

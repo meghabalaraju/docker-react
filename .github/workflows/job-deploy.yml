@@ -1,22 +1,11 @@
-name: CI
+name: Deploy to EB
 
-on:
-  push:
-    branches: ["main"]
+on: workflow_call
 
 jobs:
-  build:
+  zip:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build Docker image
-        run: docker build -t kbmegha/docker-react -f Dockerfile.dev .
-
-      - name: Run tests
-        run: docker run -e CI=true kbmegha/docker-react npm run test
-
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
 
