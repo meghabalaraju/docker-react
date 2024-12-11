@@ -6,10 +6,5 @@ on:
 
 jobs:
   build:
-    name: Build Dcoker Image
+    name: Build Dcoker Image and Run Tests
     uses: ./.github/workflows/job-dockerize.yml
-
-  test:
-    name: Run tests
-    needs: build
-    uses: ./.github/workflows/job-test.yml
